@@ -4,3 +4,7 @@
 /server/._.DS_Store
 /server/._data
 /server/._package.json
+/client/nbproject
+/client/public_html/assets
+/client/public_html/sass
+/client/public_html/templates/admin
