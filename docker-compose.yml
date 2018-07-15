@@ -23,7 +23,7 @@ services:
     environment: 
       - DATABASE_URL=mongodb://mongodb:27017/social_analytics
     command: 
-        node /app/scr/index.js
+        node /app/src/index.js
     depends_on:
         - mongodb
 
