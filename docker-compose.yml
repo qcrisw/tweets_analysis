@@ -1,0 +1,43 @@
+version: '3.3'
+
+services:
+  mongodb: 
+    image: "mongo:latest"
+    container_name: "mongodb"
+    ports:
+     - "27017:27017"
+    volumes:
+     - tweets-data:/data/db
+
+  server:
+    container_name: "social_analytics_server"
+    build: 
+        context: server
+        dockerfile: Dockerfile 
+    ports:
+        - "5000:5000"
+    links:
+        - mongodb
+    volumes:
+        - ./server/src/:/app/src
+    environment: 
+      - DATABASE_URL=mongodb://mongodb:27017/social_analytics
+    command: 
+        node /app/scr/index.js
+    depends_on:
+        - mongodb
+
+  client:
+    build:
+      context: client
+      dockerfile: Dockerfile 
+    ports:
+     - "3000:3000"
+    volumes:
+      - ./client:/client
+    depends_on:
+      - server
+volumes:
+    tweets-data:     # define the volume of mongo db
+  
+   
