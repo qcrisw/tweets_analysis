@@ -8,3 +8,4 @@
 /client/public_html/assets
 /client/public_html/sass
 /client/public_html/templates/admin
+/server/src/lib
