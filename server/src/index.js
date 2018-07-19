@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 const moment = require('./lib/moment')
 const app = express()
  
+var path = require('path');
+
  //const port = process.env.PORT || '3000'
 const databaseURL = process.env.DATABASE_URL
 const { URL } = require('url')
@@ -86,11 +88,27 @@ console.log(to);
 })
  
 /**
- geolocationTweets API:return tweets regarding to selected geolocation
+ geolocationTweets API:return all tweets that have geo value and talked about specifc topic
  */
-app.get('/geolocationTweets',  (req,res)=>{
-  adapter.geolocationTweets()
+app.get('/geoHashtagedTweets/:keyword1',  (req,res)=>{
+  adapter.geoHashtagedTweets(req.params.keyword1)
     .then(function (result) {
+      res.json({ tweets: result })
+    })
+    .catch(function (err) {
+      console.log(err)
+      res.status(500).json({ status: 'Error' })
+    })
+})
+
+
+/**
+ geolocationTweets API:return all tweets that have geo  
+ */
+app.get('/geoTweets/',  (req,res)=>{
+  adapter.geoTweets(req.params.keyword1)
+    .then(function (result) {
+      //var getData = formatJson(result);
       res.json({ tweets: result })
     })
     .catch(function (err) {
@@ -104,8 +122,8 @@ app.get('/geolocationTweets',  (req,res)=>{
  param: keyword which is passed through request , :keyword2? second parameter is optional
  result: tweets > array of jsons (id, text)
  */
-app.get('/hashtagsTweets/:keyword1/:keyword2?',  (req,res)=>{
-   var result =adapter.hashtagsTweets(req.params.keyword1,req.params.keyword2="") 
+app.get('/hashtagsTweets/:keyword1/:keyword2?/:keyword3?/:keyword4?',  (req,res)=>{
+   var result =adapter.hashtagsTweets(req.params.keyword1,req.params.keyword2,req.params.keyword3,req.params.keyword4) 
   .then(function (result) {
     
       res.json({ tweets: result })

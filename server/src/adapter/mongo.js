@@ -15,55 +15,50 @@ module.exports = {
         db = client.db()
       })
   },
-
+ // Get total number of records in tweets collection
   totalCount: function () {
-    // Get total number of records in tweets collection
+   
     return db.collection('tweets').count();
   } ,
-//not working properly
-  latestTweets : function(limitNo){
-    console.log('bbb '+limitNo);
-    var result =  db.collection('tweets').find({},{_id:1,text:1}).sort({"createdAt" :-1}).limit(parseInt(limitNo));
+  
+  //get latest number of tweets order by date desc     //test the date 
+  latestTweets : function(limitNo){ 
+    var result =  db.collection('tweets').find({},{projection:{_id:1,full_tweet:1}}).sort({"createdAt" :-1}).limit(parseInt(limitNo));
     return result.toArray();
   },
   
+   // Get tweets for specific period
   getRangeOfTweets : function(from,to){
     
-return db.collection('tweets').find({createAt:{gte:from  ,lt: to}},{text:1}).count()
+return db.collection('tweets').find({createAt:{gte:from  ,lt: to}},{projection:{_id:1}}).count()
   },
 
-  geolocationTweets: function(from,to){
+  //get tweets for specific hashtag and has values in geo attribute
+  geoHashtagedTweets: function(hashtag1){
     
-    return db.collection('tweets').find({createAt:{gte:from  ,lt: to}},{text:1}).count()
+    var result = db.collection('tweets').find({ $and: [{"geo":{$ne:null}},{'entities.hashtags':{$elemMatch:{'text':hashtag1}}}]}, {projection:{ _id : 1, full_tweet:1, geo:1}})  // get tweet text, geolocation attribute for all tweets that has geo not null
+    return result.toArray();
   }, 
-  hashtagsTweets: function(hashtag1,hashtag2){
-    //return hashtagString;
-  //  var tweetsWithHashtag =[] ;
-   var cursor= db.collection('tweets').find({ $or : [{'entities.hashtags':{$elemMatch:{'text':hashtag1}}},
-   {'entities.hashtags':{$elemMatch:{'text':hashtag2}}},{'full_tweet':1,'entities.hashtags.text':1}]},{'full_tweet':1,'entities.hashtags.text':1} );
-/*   cursor.forEach(function(doc,err){
-     tweetsWithHashtag.push(doc);
 
-   });*/
-   return cursor.toArray();
+   //get all tweets that have values in geo attribute
+  geoTweets: function(){
+    
+    var result = db.collection('tweets').find({"geo":{$ne:null}}, {projection:{full_tweet:1,"user.name":1, geo:1}})  // get tweet text, geolocation attribute for all tweets that has geo not null
+    return result.toArray(); 
+  }, 
+
+  //get tweets for 1 or 2 hashtags  
+  hashtagsTweets: function(hashtag1,hashtag2,hashtag3,hashtag4){
+ 
+   var result= db.collection('tweets').find({ $or : [
+   {'entities.hashtags':{$elemMatch:{'text':hashtag1}}},
+   {'entities.hashtags':{$elemMatch:{'text':hashtag2}}},
+   {'entities.hashtags':{$elemMatch:{'text':hashtag3}}},
+   {'entities.hashtags':{$elemMatch:{'text':hashtag4}}}
+  ]},{projection:{'full_tweet':1,'entities.hashtags.text':1}} );
+  return result.toArray();
+ 
    
-  
   }
 }
- /*
-
-function parseTwitterDate(tdate) {
-  var system_date = new Date(Date.parse(tdate));
-  var user_date = new Date();
-  if (K.ie) {
-      system_date = Date.parse(tdate.replace(/( \+)/, ' UTC$1'))
-  }
-}
-
-// from http://widgets.twimg.com/j/1/widget.js
-var K = function () {
-    var a = navigator.userAgent;
-    return {
-        ie: a.match(/MSIE\s([^;]*)/)
-    }
-}();*/
+ 
