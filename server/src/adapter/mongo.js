@@ -37,17 +37,19 @@ return db.collection('tweets').find({createAt:{gte:from  ,lt: to}},{projection:{
   geoHashtagedTweets: function(hashtag1){
     
     var result = db.collection('tweets').find({ $and: [{"geo":{$ne:null}},{'entities.hashtags':{$elemMatch:{'text':hashtag1}}}]}, {projection:{ _id : 1, full_tweet:1, geo:1}})  // get tweet text, geolocation attribute for all tweets that has geo not null
-    return result.toArray();
+    result = result.toArray();
+    return  Promise.resolve(result);
   }, 
 
    //get all tweets that have values in geo attribute
   geoTweets: function(){
     
     var result = db.collection('tweets').find({"geo":{$ne:null}}, {projection:{full_tweet:1,"user.name":1, geo:1}})  // get tweet text, geolocation attribute for all tweets that has geo not null
-    return result.toArray(); 
+    result = result.toArray();
+    return  Promise.resolve(result); 
   }, 
 
-  //get tweets for 1 or 2 hashtags  
+  //get tweets for 1 or 2 ,3, or 4 hashtags  
   hashtagsTweets: function(hashtag1,hashtag2,hashtag3,hashtag4){
  
    var result= db.collection('tweets').find({ $or : [
@@ -61,4 +63,5 @@ return db.collection('tweets').find({createAt:{gte:from  ,lt: to}},{projection:{
    
   }
 }
- 
+
+

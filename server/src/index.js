@@ -93,11 +93,20 @@ console.log(to);
 app.get('/geoHashtagedTweets/:keyword1',  (req,res)=>{
   adapter.geoHashtagedTweets(req.params.keyword1)
     .then(function (result) {
-      res.json({ tweets: result })
+     return new Promise(function(resolve, reject) {
+        // create promise object that call formatJson function to reformat tweets json]
+         setTimeout(function() {
+          let formattedJson = formatJson(result)
+              resolve(formattedJson);
+              res.json(formattedJson)
+           
+          });
+          });
+         
     })
     .catch(function (err) {
       console.log(err)
-      res.status(500).json({ status: 'Error' })
+      res.status(500).json({ status: 'Error from retreiving tweets data' })
     })
 })
 
@@ -106,10 +115,17 @@ app.get('/geoHashtagedTweets/:keyword1',  (req,res)=>{
  geolocationTweets API:return all tweets that have geo  
  */
 app.get('/geoTweets/',  (req,res)=>{
-  adapter.geoTweets(req.params.keyword1)
+  adapter.geoTweets()
     .then(function (result) {
-      //var getData = formatJson(result);
-      res.json({ tweets: result })
+      return new Promise(function(resolve, reject) {
+        // create promise object that call formatJson function to reformat tweets json]
+         setTimeout(function() {
+          let formattedJson = formatJson(result)
+              resolve(formattedJson);
+              res.json(formattedJson)
+           
+          });
+      });
     })
     .catch(function (err) {
       console.log(err)
@@ -133,3 +149,32 @@ app.get('/hashtagsTweets/:keyword1/:keyword2?/:keyword3?/:keyword4?',  (req,res)
       res.status(500).json({ status: 'Error' })
     }) 
 })
+
+
+
+function formatJson(tweetsJson){
+   var newFormat = [],tweetArray=[];
+ 
+      for(var i = 0; i < tweetsJson.length; i++) {
+        var obj = tweetsJson[i];
+        var newFormatedObj = new Object();
+    // console.log("inside loop " +obj._id );
+        tweetArray  = [obj.geo.coordinates[0],obj.geo.coordinates[1], removeBackslash( obj.full_tweet)    ];
+        newFormatedObj[removeBackslash(obj._id)] = tweetArray; 
+        newFormat.push(newFormatedObj);  
+    } 
+  
+  return JSON.stringify(newFormat);
+}
+ 
+
+
+function removeBackslash(value){
+
+  if ( typeof value == "string")
+  {
+    value = value.replace(/\//g, "");
+  }
+  return value;
+ 
+}
