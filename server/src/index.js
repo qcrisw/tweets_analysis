@@ -26,11 +26,12 @@ adapter.connect(urlObject)
 
 app.use(bodyParser.json({limit: '5mb'}))
 /*
-app.get('/ping', (req, res) => {
-  res.send('OK')
-})
-
- */
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});*/
+ 
 /*
    totalCount API: return total count of tweets
    param: none
@@ -153,18 +154,24 @@ app.get('/hashtagsTweets/:keyword1/:keyword2?/:keyword3?/:keyword4?',  (req,res)
 
 
 function formatJson(tweetsJson){
-   var newFormat = [],tweetArray=[];
- 
+   var newFormat = '{',tweetArray=[];
+ //  var newFormatedObj = new Array();
       for(var i = 0; i < tweetsJson.length; i++) {
         var obj = tweetsJson[i];
-        var newFormatedObj = new Object();
-    // console.log("inside loop " +obj._id );
-        tweetArray  = [obj.geo.coordinates[0],obj.geo.coordinates[1], removeBackslash( obj.full_tweet)    ];
-        newFormatedObj[removeBackslash(obj._id)] = tweetArray; 
-        newFormat.push(newFormatedObj);  
+        newFormat += '"' + removeBackslash(obj._id) + '"' + ": [" +obj.geo.coordinates[1] + ", " + obj.geo.coordinates[0] + ', "' +  escape(obj.full_tweet) + '"] ,' 
+ 
+      //  ‘geo’ attribute, which has the reverse [LAT, LONG] order , we need to reverse it to be compatible with the D3 format
+     //   tweetArray  = [obj.geo.coordinates[1], obj.geo.coordinates[0], removeBackslash( obj.full_tweet) ];
+     //   newFormatedObj[removeBackslash(obj._id)] = tweetArray; 
+      
+       // newFormat.push(newFormatedObj);  
     } 
-  
-  return JSON.stringify(newFormat);
+    newFormat = newFormat.slice(0, -1);  
+    newFormat+= "}";
+   var object = JSON.parse(newFormat);
+   //object= JSON.stringify(eval("(" + newFormat + ")"));
+   console.log(object);
+  return object;
 }
  
 
@@ -173,8 +180,18 @@ function removeBackslash(value){
 
   if ( typeof value == "string")
   {
-    value = value.replace(/\//g, "");
+    value = value.replace(/\n/g, "");
+ 
   }
   return value;
  
 }
+
+function JSONize(str) {
+  return str
+    // wrap keys without quote with valid double quote
+    .replace(/([\$\w]+)\s*:/g, function(_, $1){return '"'+$1+'":'})    
+    // replacing single quote wrapped ones to double quote 
+    .replace(/'([^']+)'/g, function(_, $1){return '"'+$1+'"'})         
+}
+
