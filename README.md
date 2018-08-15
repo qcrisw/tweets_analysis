@@ -33,8 +33,8 @@ If you've fulfilled the above prerequisites, it's very simple to download and ru
 
 Clone the project repository from Github
 
-`cd ~`
-`git clone https://github.com/qcrisw/tweets_analysis.git`
+`cd ~`  
+`git clone https://github.com/qcrisw/tweets_analysis.git`  
 `cd tweet-analysis`
 
 ### Running Tweets analysis server
