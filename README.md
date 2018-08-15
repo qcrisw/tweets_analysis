@@ -47,11 +47,11 @@ Now the server is working locally on ur machine on port 3000
 
 Go to client folder, open index.html in the browser. No you can start search for specific search topic and see the results..
 
-#Built With
+# Built With
 * Node js,[ Express framework ](https://expressjs.com/) 
 * [Promise js](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 * [Mongo db](https://www.mongodb.com/)
 * HTML5, CSS3, bootstrap, jQuery
 
-#License
+# License
 This project is licensed under the MIT License inside QCRI
