@@ -16,17 +16,17 @@ We've included links below to installation instructions for Docker Community Edi
 After following these instructions, you will be able to directly run the commands in the Install and Run section.
 
 ### Windows
-* Visit the Install Docker for Windows page
-* Follow the instructions listed in the section called Install Docker for Windows Desktop App
+* Visit the [ Install Docker for Windows](https://docs.docker.com/docker-for-windows/install/) page
+* Follow the instructions listed in the section called [Install Docker for Windows Desktop App](https://docs.docker.com/docker-for-windows/install/#install-docker-for-windows-desktop-app)
 ### Mac
-* Visit the Install Docker for Mac page
-* After downloading the .dmg file, follow the instructions listed in the section called Install and Run Docker for Mac
+* Visit the [Install Docker for Mac ](https://docs.docker.com/docker-for-mac/install/) page
+* After downloading the .dmg file, follow the instructions listed in the section called [Install and Run Docker for Mac! ](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac)
 ### Ubuntu
-* Visit the Get Docker CE for Ubuntu page
-* Follow the instructions listed under the Install Docker CE section
-* To install Docker Compose, visit the Install Docker Compose page
-* Follow the instructions under the Install Compose section
-* Follow the Linux post-install instructions
+* Visit the Get [I Docker CE for Ubuntu ](https://docs.docker.com/install/linux/docker-ce/ubuntu/)page
+* Follow the instructions listed under the [Install Docker CE ](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce) section
+* To install Docker Compose, visit the Install [Install Docker CE ](https://docs.docker.com/compose/install/) page
+* Follow the instructions under the [Install Docker Compose ](https://docs.docker.com/compose/install/#install-compose)section
+* Follow the [Linux post-install ](https://docs.docker.com/install/linux/linux-postinstall/) instructions
 
 ### Install and Run
 If you've fulfilled the above prerequisites, it's very simple to download and run the server to be able call the apis from the user interface.
@@ -48,9 +48,9 @@ Now the server is working locally on ur machine on port 3000
 Go to client folder, open index.html in the browser. No you can start search for specific search topic and see the results..
 
 #Built With
-* Node js, Express framework
-* Promise js
-* Mongo db
+* Node js,[ Express framework ](https://expressjs.com/) 
+* [Promise js](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+* [Mongo db](https://www.mongodb.com/)
 * HTML5, CSS3, bootstrap, jQuery
 
 #License
