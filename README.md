@@ -1,6 +1,6 @@
 # Tweets Analysis ui
 
-Tweet analysis is a web-based app that enable you to see the analysis of hashtag, user mention or keyword fot twitter data.
+Tweet analysis is an interactive web-based app that enable users to see the analysis of hashtag, user mention or keyword fot twitter data for specific period of time.
 
 # Getting started
  
